@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>共乘服務</title>
+<style>
+:root{
+  --bg:#f0f9f4;
+  --card:#fffefc;
+  --accent:#1d4d2f; 
+  --accent-light:#6aa37f; 
+  --text:#1b3b30;
+  --muted:#4b5a4f;
+  --danger:#d9534f;
+  --success:#3aa76a;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:linear-gradient(180deg,var(--bg), #e6f2ea);
+  font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;
+  color:var(--text);
+  padding:18px;
+}
+.wrap{
+  max-width:900px;
+  margin:0 auto 60px;
+}
+header{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:8px;
+  padding:16px;
+  background:linear-gradient(90deg,#f7fff8,#f0f8f4);
+  border-radius:14px;
+  border:1px solid rgba(45,90,60,0.08);
+  margin-bottom:16px;
+}
+header h1{font-size:28px;margin:0;line-height:1.2;}
+header p.lead{margin:4px 0 0;color:var(--muted);font-size:16px;}
+header p.station{margin-top:4px;font-size:16px;font-weight:800;color:#2f7a57;}
+
+.card{
+  background:var(--card);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:14px;
+  border:1px solid rgba(34,68,46,0.06);
+  box-shadow:0 6px 18px rgba(50,80,60,0.03);
+}
+
+.buttons-row{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:12px;
+}
+.time-btn{
+  width:100%;
+  padding:16px;
+  font-size:18px;
+  font-weight:700;
+  border-radius:12px;
+  border:2px solid transparent;
+  background:linear-gradient(180deg,#e0f7e8,#d9f0e0);
+  color:var(--accent);
+  cursor:pointer;
+  box-shadow:0 6px 14px rgba(46,92,64,0.06);
+  text-align:center;
+}
+.time-btn.selected{
+  background: var(--accent);
+  color:white;
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(29,77,47,0.3);
+}
+
+.name-area{
+  margin-top:12px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.name-input-wrap{
+  flex:1;
+  position:relative;
+}
+.name-label{
+  font-weight:900;
+  color:var(--accent);
+  font-size:14px;
+  margin-bottom:6px;
+}
+.name-input{
+  width:100%;
+  padding:18px 20px;
+  font-size:20px;
+  border-radius:12px;
+  border:3px solid #fff176;
+  background: linear-gradient(180deg,#fffdf6,#fffaf2);
+  outline:none;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.04);
+}
+.name-input::placeholder{color:#b4b4a2}
+.arrow-tip{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  background:var(--accent);
+  color:#fff;
+  padding:10px 12px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:default;
+}
+.add-btn{
+  margin-left:6px;
+  padding:14px 18px;
+  font-size:18px;
+  font-weight:900;
+  color:white;
+  border-radius:12px;
+  border:none;
+  background:var(--accent);
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(29,77,47,0.25);
+}
+
+.lists{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:14px;
+}
+.list-title{
+  font-weight:900;
+  color:#fff;
+  background:var(--accent);
+  padding:10px;
+  border-radius:10px;
+  text-align:center;
+  font-size:16px;
+}
+.slot-card{
+  background:linear-gradient(180deg,#fff,#fafaf6);
+  border-radius:12px;
+  padding:12px;
+  border:1px solid rgba(45,80,60,0.06);
+  margin-bottom:12px;
+}
+.slot-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.slot-info{
+  font-weight:800;
+  color:var(--accent);
+  font-size:15px;
+}
+.slot-desc{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:4px;
+}
+.slot-list{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:6px;
+}
+.seat{
+  min-height:44px;
+  border-radius:8px;
+  padding:8px 10px;
+  background:linear-gradient(180deg,#fff,#f5fff6);
+  border:1px dashed rgba(47,122,87,0.08);
+  font-size:15px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:8px;
+}
+.seat.empty{color:#a4b39f}
+.seat.filled{background:linear-gradient(180deg,#e6fff1,#ddfbe6); border:1px solid rgba(47,122,87,0.18)}
+.cancel-btn{
+  background:var(--danger);
+  color:white;
+  border-radius:6px;
+  padding:2px 6px;
+  cursor:pointer;
+  border:none;
+  font-weight:800;
+  margin-left:auto;
+  font-size:12px;
+}
+.delete-slot-btn{
+  background:var(--danger);
+  color:white;
+  border-radius:8px;
+  padding:4px 8px;
+  cursor:pointer;
+  border:none;
+  font-weight:900;
+  font-size:14px;
+}
+.toast{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:26px;
+  background:rgba(40,90,60,0.95);
+  color:white;
+  padding:10px 16px;
+  border-radius:10px;
+  font-weight:700;
+  display:none;
+}
+@media(max-width:860px){
+  .lists{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>🚕 共乘服務</h1>
+  <p class="lead">長輩友善 · 單一選擇按鈕快速選擇時段</p>
+  <p class="station">📍 烏日高鐵站上車地點: 1F 載客區，1號會面點</p>
+</header>
+
+<div class="card" aria-live="polite">
+  <div class="buttons-row" id="buttonsRow">
+    <!-- 按鈕由 JS 生成 -->
+  </div>
+
+  <div class="name-area">
+    <div class="name-input-wrap">
+      <div class="name-label">👉 請在此輸入您的名字（範例：洪千淑）</div>
+      <input id="nameInput" class="name-input" type="text" placeholder="請輸入中文全名"/>
+      <div class="arrow-tip">加入 ➜</div>
+    </div>
+    <button class="add-btn" onclick="joinSelected()">加入名單</button>
+  </div>
+</div>
+
+<div class="lists">
+  <div>
+    <div class="list-title">去程</div>
+    <div id="goListArea"></div>
+  </div>
+  <div>
+    <div class="list-title">回程</div>
+    <div id="backListArea"></div>
+  </div>
+</div>
+
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const FIXED_QUOTA=16;
+let rides=JSON.parse(localStorage.getItem('rides_travel_v4'))||[];
+let SELECTED={type:null,date:null,time:null,desc:null};
+let scrollToIdx=null;
+
+// 時段按鈕設定
+const SLOT_OPTIONS=[
+  {type:'go', date:'2025-12-12', time:'15:40', desc:'前一天入住'},
+  {type:'go', date:'2025-12-13', time:'07:30', desc:'早上'},
+  {type:'go', date:'2025-12-14', time:'07:30', desc:'早上'},
+  {type:'back', date:'2025-12-13', time:'17:30', desc:'回程'},
+  {type:'back', date:'2025-12-14', time:'17:10', desc:'回程'}
+];
+
+function toast(msg,timeout=1600){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.display='block';
+  setTimeout(()=>t.style.display='none',timeout);
+}
+
+// 取得星期
+function getWeekday(d){
+  const dt=new Date(d+'T00:00:00');
+  return ['日','一','二','三','四','五','六'][dt.getDay()];
+}
+
+// 生成按鈕
+const buttonsRow=document.getElementById('buttonsRow');
+SLOT_OPTIONS.forEach(s=>{
+  const btn=document.createElement('button');
+  btn.className='time-btn';
+  const weekday=getWeekday(s.date);
+  btn.textContent=`${s.date}(${weekday}) ${s.time} ${s.desc}`;
+  btn.onclick=()=>chooseSlot(s.type,s.date,s.time,s.desc,btn);
+  buttonsRow.appendChild(btn);
+});
+
+function chooseSlot(type,date,time,desc,btn){
+  SELECTED={type,date,time,desc};
+  document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  toast('已選擇時段：'+date+' '+time);
+}
+
+function joinSelected(){
+  const nameInput=document.getElementById('nameInput');
+  const name=nameInput.value.trim();
+  if(!SELECTED.date){alert('請先選擇時段'); return;}
+  if(!name){alert('請輸入姓名'); nameInput.focus(); return;}
+  let found=rides.find(r=>r.date===SELECTED.date&&r.type===SELECTED.type&&r.time===SELECTED.time&&r.desc===SELECTED.desc);
+  if(found){
+    if(found.names.length>=FIXED_QUOTA){alert('此時段名額已滿'); return;}
+    found.names.push(name);
+    scrollToIdx=rides.indexOf(found);
+  }else{
+    rides.push({date:SELECTED.date,type:SELECTED.type,time:SELECTED.time,desc:SELECTED.desc,names:[name]});
+    scrollToIdx=rides.length-1;
+  }
+  localStorage.setItem('rides_travel_v4',JSON.stringify(rides));
+  nameInput.value='';
+  toast('已加入名單 ✔');
+  renderLists();
+}
+
+function removeName(idx,name){
+  if(!confirm('確定要刪除這個姓名嗎？')) return;
+  rides[idx].names=rides[idx].names.filter(n=>n!==name);
+  localStorage.setItem('rides_travel_v4',JSON.stringify(rides));
+  renderLists();
+  toast('已刪除');
+}
+
+function deleteSlot(idx){
+  if(!confirm('確定要刪除整個時段嗎？')) return;
+  rides.splice(idx,1);
+  localStorage.setItem('rides_travel_v4',JSON.stringify(rides));
+  renderLists();
+  toast('已刪除整個時段');
+}
+
+function renderLists(){
+  rides.sort((a,b)=>{
+    if(a.date===b.date) return a.time.localeCompare(b.time);
+    return a.date.localeCompare(b.date);
+  });
+  const goArea=document.getElementById('goListArea');
+  const backArea=document.getElementById('backListArea');
+  goArea.innerHTML=''; backArea.innerHTML='';
+  rides.forEach((slot,idx)=>{
+    const container=document.createElement('div');
+    container.className='slot-card';
+    const head=document.createElement('div'); head.className='slot-head';
+    const info=document.createElement('div');
+    const locationText=(slot.type==='go')?'烏日高鐵站上車地點: 1F 載客區，1號會面點':'菘畫居';
+    info.innerHTML=`<div class="slot-info">${slot.type==='go'? '台中高鐵 → 菘畫居' : '菘畫居 → 台中高鐵'}｜${locationText}</div>
+                      <div class="slot-desc">${slot.date} ｜ ${slot.time} · ${slot.desc}</div>`;
+    head.appendChild(info);
+
+    const deleteBtn=document.createElement('button');
+    deleteBtn.className='delete-slot-btn';
+    deleteBtn.textContent='刪除整個時段';
+    deleteBtn.onclick=()=>deleteSlot(idx);
+    head.appendChild(deleteBtn);
+
+    container.appendChild(head);
+
+    const seats=document.createElement('div'); seats.className='slot-list';
+    for(let i=0;i<FIXED_QUOTA;i++){
+      const s=document.createElement('div'); 
+      s.className='seat '+(slot.names[i]?'filled':'empty');
+      s.textContent=slot.names[i]||'空位';
+      if(slot.names[i]){
+        const btn=document.createElement('button');
+        btn.className='cancel-btn';
+        btn.textContent='❌';
+        btn.onclick=()=>removeName(idx,slot.names[i]);
+        s.appendChild(btn);
+      }
+      seats.appendChild(s);
+    }
+    container.appendChild(seats);
+
+    if(slot.type==='go') goArea.appendChild(container);
+    else backArea.appendChild(container);
+
+    if(scrollToIdx!==null && idx===scrollToIdx){
+      setTimeout(()=>{container.scrollIntoView({behavior:'smooth', block:'center'}); scrollToIdx=null; },150);
+    }
+  });
+}
+
+renderLists();
+</script>
+</body>
+</html>
+
