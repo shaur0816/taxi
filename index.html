@@ -9,7 +9,6 @@
 <link rel="apple-touch-icon" sizes="180x180" href="./icon.png">
 <meta name="description" content="共乘服務 - 旅行風長輩友善" />
 <style>
-/* ====== 主要樣式 (略過可參考前面版本) ====== */
 :root{
   --bg:#f0f9f4; --card:#fffefc; --accent:#1d4d2f; --accent-light:#6aa37f;
   --text:#1b3b30; --muted:#4b5a4f; --danger:#d9534f;
@@ -23,23 +22,24 @@ h1{font-size:28px;margin:0;}
 .station{font-size:15px;font-weight:800;color:#2f7a57;}
 .card{background:var(--card);border-radius:12px;padding:14px;margin:12px 0;box-shadow:0 6px 18px rgba(50,80,60,0.03);}
 .buttons-row{display:flex;flex-direction:column;gap:10px;}
-.time-btn{padding:14px;font-size:17px;font-weight:800;border-radius:12px;border:2px solid transparent;background:linear-gradient(180deg,#e0f7e8,#d9f0e0);color:var(--accent);cursor:pointer;text-align:center;}
-.time-btn.selected{background:var(--accent);color:#fff;transform:translateY(-2px);}
+.time-btn{padding:14px;font-size:17px;font-weight:800;border-radius:12px;border:2px solid transparent;background:linear-gradient(180deg,#fff7d9,#ffeaa3);color:#6b4a05;cursor:pointer;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,0.04);}
+.time-btn.selected{background:#ffc107;color:#3b2b00;transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.12);}
 .name-area{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
 .name-input{flex:1;padding:14px;font-size:18px;border-radius:10px;border:3px solid #fff176;background:#fffdf6;}
 .add-btn{padding:14px 18px;font-size:18px;border-radius:10px;background:var(--accent);color:#fff;border:none;font-weight:900;cursor:pointer;}
 .lists{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
 .list-title{background:var(--accent);color:#fff;padding:8px;border-radius:8px;text-align:center;font-weight:900;}
-.slot-card{padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fafaf6);border:1px solid rgba(45,80,60,0.06);}
-.slot-info{font-weight:900;color:var(--accent);}
-.slot-desc{color:var(--muted);margin-top:4px;}
-.slot-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px;}
-.seat{min-height:44px;border-radius:8px;padding:8px;border:1px dashed rgba(47,122,87,0.08);display:flex;align-items:center;gap:8px;font-size:15px;}
+.slot-card{padding:12px;border-radius:14px;background:linear-gradient(180deg,#fff,#f7fff2);border:1px solid rgba(45,80,60,0.06);box-shadow:0 6px 18px rgba(45,80,60,0.03);margin-bottom:10px;}
+.slot-info{font-weight:900;color:#25573b;font-size:16px;}
+.slot-desc{color:var(--muted);margin-top:6px;font-size:15px;}
+.slot-line{margin-top:6px;font-size:15px;color:#2f6e4f;}
+.slot-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;}
+.seat{min-height:44px;border-radius:8px;padding:8px;border:1px dashed rgba(47,122,87,0.08);display:flex;align-items:center;gap:8px;font-size:15px;background:#fff;}
 .seat.filled{background:linear-gradient(180deg,#e6fff1,#ddfbe6);}
-.cancel-btn{margin-left:auto;background:var(--danger);color:#fff;border:none;padding:6px 8px;border-radius:6px;cursor:pointer;font-weight:800;}
-.delete-slot-btn{margin-top:10px;width:100%;background:var(--danger);color:#fff;border:none;padding:8px;border-radius:8px;font-weight:900;cursor:pointer;}
+.cancel-btn{margin-left:auto;background:#d9534f;color:#fff;border:none;padding:6px 8px;border-radius:6px;cursor:pointer;font-weight:800;}
+.delete-slot-btn{margin-top:10px;width:100%;background:#c62828;color:#fff;border:none;padding:10px;border-radius:10px;font-weight:900;cursor:pointer;}
 .info-line{font-size:13px;color:var(--muted);margin-top:6px;}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:rgba(40,90,60,0.95);color:#fff;padding:10px 14px;border-radius:10px;display:none;}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:rgba(40,90,60,0.95);color:#fff;padding:10px 14px;border-radius:10px;display:none;z-index:9999;}
 .loading{display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid rgba(0,0,0,0.1);border-top-color:var(--accent);animation:spin 1s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:860px){.lists{grid-template-columns:1fr}}
@@ -50,7 +50,7 @@ h1{font-size:28px;margin:0;}
 <div class="wrap">
   <header>
     <h1>🚕 共乘服務</h1>
-    <div class="lead">長輩友善 · 單一選擇按鈕快速選擇時段</div>
+    <div class="lead">旅行風 • 長輩友善 • 手機優化</div>
     <div class="station">📍 烏日高鐵站上車地點: 1F 載客區，1號會面點</div>
   </header>
 
@@ -82,10 +82,9 @@ h1{font-size:28px;margin:0;}
 
 <script>
 /* ======= 前端 (index.html) =======
-   - 這個檔案是前端：放到 GitHub Pages 或直接開啟
-   - 請把 API_URL 改成你部署後的 Apps Script exec URL
+   - 把 API_URL 換成你部署後的 Apps Script exec URL
 */
-const API_URL = "https://script.google.com/macros/s/AKfycbyr2dnJbEIHO9X8ditDnhOMWnAr2q1o_GAgleDxvBfhzE2mOmC3RN2VaLI5z8yQ2OEdMA/exec"; // <- 若後端重新部署，請改為最新 exec URL
+const API_URL = "https://script.google.com/macros/s/AKfycbwk-2tYwoRW3iKBFYm8uFrGHd0zrQLNBKM-sKzkeUXrQtswKDPt0L6wV89YyuneT0tNlA/exec"; // <- **部署後把你的 exec URL 貼在這裡**
 const FIXED_QUOTA = 16;
 const SLOT_OPTIONS = [
   { type:'go', date:'2025-12-12', time:'15:40', desc:'前一天入住' },
@@ -109,20 +108,33 @@ function showTopLoading(show){
   $('topLoading').style.display = show ? 'inline-block' : 'none';
 }
 
-/* 形成按鈕文字，顯示星期 */
+/* 轉換與格式化 */
 function weekdayOf(dateStr){
   const dt = new Date(dateStr + 'T00:00:00');
   return ['日','一','二','三','四','五','六'][dt.getDay()];
 }
+function formatPrettyDate(dateStr){
+  if(!dateStr) return '';
+  const dt = new Date(dateStr + 'T00:00:00');
+  if(isNaN(dt.getTime())) return dateStr;
+  const mm = String(dt.getMonth()+1).padStart(2,'0');
+  const dd = String(dt.getDate()).padStart(2,'0');
+  const w = ['日','一','二','三','四','五','六'][dt.getDay()];
+  return `${mm}/${dd}（${w}）`;
+}
+function formatPrettyTime(timeStr){
+  if(!timeStr) return '';
+  // timeStr is like "15:40"
+  return timeStr;
+}
 function slotLabel(s){
-  // 輸出：12/12(五) 下午15:40（前一天入住）
   const mmdd = s.date.slice(5).replace('-','/');
   const w = weekdayOf(s.date);
   const ampm = Number(s.time.split(':')[0]) < 12 ? '早上' : '下午';
   return `${mmdd}(${w}) ${ampm}${s.time}（${s.desc}）`;
 }
 
-/* ---------- 產生五個大按鈕 ---------- */
+/* ---------- 產生按鈕 ---------- */
 function renderSlotButtons(){
   const wrap = $('buttonsRow'); wrap.innerHTML = '';
   SLOT_OPTIONS.forEach(s=>{
@@ -140,7 +152,7 @@ function renderSlotButtons(){
   });
 }
 
-/* ---------- 請求 API ---------- */
+/* ---------- API ---------- */
 async function apiGet(){
   showTopLoading(true);
   try{
@@ -175,7 +187,6 @@ $('btnJoin').addEventListener('click', async ()=>{
   if(!SELECTED){ alert('請先選擇時段'); return; }
   if(!name){ alert('請輸入姓名'); $('nameInput').focus(); return; }
 
-  // 名額檢查（即時以前端計算，但最終會由後端資料決定）
   const slotKey = (s)=> `${s.type}|${s.date}|${s.time}|${s.desc}`;
   const existing = rides.filter(r => slotKey(r) === slotKey(SELECTED));
   if(existing.length >= FIXED_QUOTA){
@@ -191,9 +202,8 @@ $('btnJoin').addEventListener('click', async ()=>{
     if(json && json.success){
       $('nameInput').value = '';
       toast('已加入名單');
-      // 讓 renderLists 在下一次 fetch 時滾動到新增的那個 id（若後端回傳 id）
       scrollToId = json.id || null;
-      await apiGet(); // 重新讀取最新資料
+      await apiGet();
     } else {
       throw new Error(json && json.message ? json.message : '新增失敗');
     }
@@ -206,7 +216,7 @@ $('btnJoin').addEventListener('click', async ()=>{
   }
 });
 
-/* ---------- 刪除單筆姓名（透過 id） ---------- */
+/* ---------- 刪除單筆 / 刪除時段 ---------- */
 async function deleteName(id){
   if(!confirm('確定刪除此姓名？')) return;
   try{
@@ -222,7 +232,6 @@ async function deleteName(id){
   }
 }
 
-/* ---------- 刪除整個時段（type+date+time+desc） ---------- */
 async function deleteSlot(type,date,time,desc){
   if(!confirm('確定刪除整個時段全部名單？')) return;
   try{
@@ -238,88 +247,120 @@ async function deleteSlot(type,date,time,desc){
   }
 }
 
-/* ---------- render lists (grouping) ---------- */
-function renderLists(){
-  // rides 為 array of objects: {id,date,time,type,desc,name,createdAt}
-  // 先依 date,time 排序
-  rides.sort((a,b)=>{
-    if(a.date === b.date) return a.time.localeCompare(b.time);
-    return a.date.localeCompare(b.date);
+/* ---------- 完整 renderLists()（美化版） ---------- */
+function renderLists() {
+  const slotKey = (s) => `${s.type}|${s.date}|${s.time}|${s.desc}`;
+
+  // 分組 rides：key = type|date|time|desc → array of rows
+  const groups = {};
+  rides.forEach(r => {
+    const key = slotKey(r);
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(r);
   });
 
-  // 將同一 slot 聚合為一個物件: { date,time,type,desc, items: [{id,name}] }
-  const slots = [];
-  const mapKey = (r)=> `${r.type}|${r.date}|${r.time}|${r.desc}`;
-  const map = {};
-  rides.forEach(r=>{
-    const k = mapKey(r);
-    if(!map[k]) map[k] = { type:r.type, date:r.date, time:r.time, desc:r.desc, items: [] };
-    map[k].items.push({ id: r.id, name: r.name, createdAt: r.createdAt });
+  // 以預設 SLOT_OPTIONS 為主順序（若後端有其他時段也會被忽略）
+  const sortedSlots = SLOT_OPTIONS.slice().sort((a,b)=>{
+    const ad = a.date + ' ' + a.time;
+    const bd = b.date + ' ' + b.time;
+    return ad.localeCompare(bd);
   });
-  Object.keys(map).forEach(k=> slots.push(map[k]));
 
-  // render slots into go/back area
-  const goArea = $('goListArea'); const backArea = $('backListArea');
-  goArea.innerHTML = ''; backArea.innerHTML = '';
+  const goArea = $('goListArea');
+  const backArea = $('backListArea');
+  goArea.innerHTML = '';
+  backArea.innerHTML = '';
 
-  slots.forEach((slot, idx) => {
-    const container = document.createElement('div'); container.className='slot-card';
-    const info = document.createElement('div'); info.className='slot-info';
-    const locationText = slot.type==='go' ? '烏日高鐵站上車地點: 1F 載客區，1號會面點' : '菘畫居';
-    info.textContent = `${slot.type==='go' ? '台中高鐵 → 菘畫居' : '菘畫居 → 台中高鐵'}｜${locationText}`;
-    const desc = document.createElement('div'); desc.className='slot-desc'; desc.textContent = `${slot.date} ｜ ${slot.time} · ${slot.desc}`;
-    container.appendChild(info); container.appendChild(desc);
+  sortedSlots.forEach(slot => {
+    const key = slotKey(slot);
+    const list = groups[key] || [];
 
-    // seats grid
-    const seats = document.createElement('div'); seats.className='slot-list';
-    // show existing names first
-    slot.items.forEach(it=>{
-      const s = document.createElement('div'); s.className='seat filled'; s.textContent = it.name;
-      const btn = document.createElement('button'); btn.className = 'cancel-btn'; btn.textContent = '刪除';
-      btn.onclick = ()=> deleteName(it.id);
-      s.appendChild(btn);
-      seats.appendChild(s);
-    });
-    // empty seats
-    const emptyCount = Math.max(0, FIXED_QUOTA - slot.items.length);
-    for(let i=0;i<emptyCount;i++){
-      const s = document.createElement('div'); s.className='seat'; s.textContent = '空位';
-      seats.appendChild(s);
-    }
+    const card = document.createElement('div');
+    card.className = 'slot-card';
 
-    container.appendChild(seats);
+    // header: 路線 + 地點
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'slot-info';
+    infoDiv.textContent = slot.type === 'go' ? '台中高鐵 → 菘畫居' : '菘畫居 → 台中高鐵';
+    card.appendChild(infoDiv);
 
-    // 顯示刪除時段按鈕（明顯）
-    const delBtn = document.createElement('button'); delBtn.className='delete-slot-btn'; delBtn.textContent='刪除此時段全部名單';
-    delBtn.onclick = ()=> deleteSlot(slot.type, slot.date, slot.time, slot.desc);
-    container.appendChild(delBtn);
+    // place
+    const placeLine = document.createElement('div');
+    placeLine.className = 'slot-line';
+    placeLine.textContent = slot.type === 'go' ? '📍 烏日高鐵站上車地點：1F 載客區，1號會面點' : '📍 菘畫居';
+    card.appendChild(placeLine);
 
-    if(slot.type === 'go') goArea.appendChild(container); else backArea.appendChild(container);
+    // date/time & desc
+    const dtLine = document.createElement('div');
+    dtLine.className = 'slot-line';
+    dtLine.innerHTML = `🕒 ${formatPrettyDate(slot.date)} ${formatPrettyTime(slot.time)} &nbsp; <span style="color:#6e6e6e">· ${slot.desc}</span>`;
+    card.appendChild(dtLine);
 
-    // 如果需要滾動到剛剛新增的 id（scrollToId），定位後滾動
-    if(scrollToId){
-      // 如果 slot.items 裡包含該 id，滾動
-      const found = slot.items.find(x=>x.id === scrollToId);
-      if(found){
-        setTimeout(()=>{ container.scrollIntoView({behavior:'smooth', block:'center'}); scrollToId = null; }, 200);
+    // quota info
+    const quotaLine = document.createElement('div');
+    quotaLine.className = 'info-line';
+    quotaLine.textContent = `名額：${list.length} / ${FIXED_QUOTA}`;
+    card.appendChild(quotaLine);
+
+    // seats
+    const grid = document.createElement('div');
+    grid.className = 'slot-list';
+
+    for (let i = 0; i < FIXED_QUOTA; i++) {
+      const box = document.createElement('div');
+      box.className = 'seat';
+      if (list[i]) {
+        box.classList.add('filled');
+        box.id = 'seat-' + list[i].id;
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = list[i].name;
+        box.appendChild(nameSpan);
+        const btn = document.createElement('button');
+        btn.className = 'cancel-btn';
+        btn.textContent = '刪除';
+        btn.onclick = ()=> deleteName(list[i].id);
+        box.appendChild(btn);
+      } else {
+        box.textContent = '空位';
       }
+      grid.appendChild(box);
     }
+    card.appendChild(grid);
+
+    // delete slot button (顯眼)
+    const delAllBtn = document.createElement('button');
+    delAllBtn.className = 'delete-slot-btn';
+    delAllBtn.textContent = '刪除此時段全部名單';
+    delAllBtn.onclick = ()=> deleteSlot(slot.type, slot.date, slot.time, slot.desc);
+    card.appendChild(delAllBtn);
+
+    if (slot.type === 'go') goArea.appendChild(card);
+    else backArea.appendChild(card);
   });
+
+  // 滾動到新增的 id（如有）
+  if (scrollToId) {
+    const el = document.getElementById('seat-' + scrollToId);
+    if (el) {
+      setTimeout(()=>{ el.scrollIntoView({behavior:'smooth', block:'center'}); scrollToId = null; }, 150);
+    } else {
+      scrollToId = null;
+    }
+  }
 
   updateRemainInfo();
 }
 
-/* ---------- 顯示剩餘名額簡易提示 ---------- */
+/* ---------- 顯示剩餘名額 ---------- */
 function updateRemainInfo(){
   if(!SELECTED){ $('remainInfo').textContent = '請選擇時段'; return; }
-  // 找到該 slot
   const key = (s)=> `${s.type}|${s.date}|${s.time}|${s.desc}`;
   const curCount = rides.filter(r => key(r) === key(SELECTED)).length;
   const left = Math.max(0, FIXED_QUOTA - curCount);
   $('remainInfo').textContent = `此時段剩餘名額：${left} / ${FIXED_QUOTA}`;
 }
 
-/* ---------- auto refresh 每 3 秒拉一次最新資料 ---------- */
+/* ---------- auto refresh ---------- */
 let pollTimer = null;
 function startPolling(){
   if(pollTimer) clearInterval(pollTimer);
@@ -333,8 +374,6 @@ function init(){
   startPolling();
 }
 init();
-
 </script>
 </body>
 </html>
-
