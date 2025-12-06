@@ -4,403 +4,333 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>共乘服務</title>
-<link rel="icon" type="image/png" href="./icon.png">
-<link rel="apple-touch-icon" href="./icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="./icon.png">
+<meta name="description" content="共乘服務 - 旅行風長輩友善" />
 <style>
+/* ====== 主要樣式 (略過可參考前面版本) ====== */
 :root{
-  --bg:#f0f9f4;
-  --card:#fffefc;
-  --accent:#1d4d2f; 
-  --accent-light:#6aa37f; 
-  --text:#1b3b30;
-  --muted:#4b5a4f;
-  --danger:#d9534f;
-  --success:#3aa76a;
+  --bg:#f0f9f4; --card:#fffefc; --accent:#1d4d2f; --accent-light:#6aa37f;
+  --text:#1b3b30; --muted:#4b5a4f; --danger:#d9534f;
 }
 *{box-sizing:border-box;}
-body{
-  margin:0;
-  background:linear-gradient(180deg,var(--bg), #e6f2ea);
-  font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;
-  color:var(--text);
-  padding:18px;
-}
-.wrap{
-  max-width:900px;
-  margin:0 auto 60px;
-}
-header{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:8px;
-  padding:16px;
-  background:linear-gradient(90deg,#f7fff8,#f0f8f4);
-  border-radius:14px;
-  border:1px solid rgba(45,90,60,0.08);
-  margin-bottom:16px;
-}
-header h1{font-size:28px;margin:0;line-height:1.2;}
-header p.lead{margin:4px 0 0;color:var(--muted);font-size:16px;}
-header p.station{margin-top:4px;font-size:16px;font-weight:800;color:#2f7a57;}
-
-.card{
-  background:var(--card);
-  border-radius:12px;
-  padding:16px;
-  margin-bottom:14px;
-  border:1px solid rgba(34,68,46,0.06);
-  box-shadow:0 6px 18px rgba(50,80,60,0.03);
-}
-
-.buttons-row{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin-bottom:12px;
-}
-.time-btn{
-  width:100%;
-  padding:16px;
-  font-size:18px;
-  font-weight:700;
-  border-radius:12px;
-  border:2px solid transparent;
-  background:linear-gradient(180deg,#e0f7e8,#d9f0e0);
-  color:var(--accent);
-  cursor:pointer;
-  box-shadow:0 6px 14px rgba(46,92,64,0.06);
-  text-align:center;
-}
-.time-btn.selected{
-  background: var(--accent);
-  color:white;
-  transform:translateY(-2px);
-  box-shadow:0 10px 20px rgba(29,77,47,0.3);
-}
-
-.name-area{
-  margin-top:12px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-}
-.name-input-wrap{
-  flex:1;
-  position:relative;
-}
-.name-label{
-  font-weight:900;
-  color:var(--accent);
-  font-size:14px;
-  margin-bottom:6px;
-}
-.name-input{
-  width:100%;
-  padding:18px 20px;
-  font-size:20px;
-  border-radius:12px;
-  border:3px solid #fff176;
-  background: linear-gradient(180deg,#fffdf6,#fffaf2);
-  outline:none;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.04);
-}
-.name-input::placeholder{color:#b4b4a2}
-.arrow-tip{
-  position:absolute;
-  right:12px;
-  top:50%;
-  transform:translateY(-50%);
-  background:var(--accent);
-  color:#fff;
-  padding:10px 12px;
-  border-radius:10px;
-  font-weight:800;
-  cursor:default;
-}
-.add-btn{
-  margin-left:6px;
-  padding:14px 18px;
-  font-size:18px;
-  font-weight:900;
-  color:white;
-  border-radius:12px;
-  border:none;
-  background:var(--accent);
-  cursor:pointer;
-  box-shadow:0 8px 18px rgba(29,77,47,0.25);
-}
-
-.lists{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-top:14px;
-}
-.list-title{
-  font-weight:900;
-  color:#fff;
-  background:var(--accent);
-  padding:10px;
-  border-radius:10px;
-  text-align:center;
-  font-size:16px;
-}
-.slot-card{
-  background:linear-gradient(180deg,#fff,#fafaf6);
-  border-radius:12px;
-  padding:12px;
-  border:1px solid rgba(45,80,60,0.06);
-  margin-bottom:12px;
-}
-.slot-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.slot-info{
-  font-weight:800;
-  color:var(--accent);
-  font-size:15px;
-}
-.slot-desc{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:4px;
-}
-.slot-list{
-  margin-top:10px;
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:6px;
-}
-.seat{
-  min-height:44px;
-  border-radius:8px;
-  padding:8px 10px;
-  background:linear-gradient(180deg,#fff,#f5fff6);
-  border:1px dashed rgba(47,122,87,0.08);
-  font-size:15px;
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  gap:8px;
-}
-.seat.empty{color:#a4b39f}
-.seat.filled{background:linear-gradient(180deg,#e6fff1,#ddfbe6); border:1px solid rgba(47,122,87,0.18)}
-.cancel-btn{
-  background:var(--danger);
-  color:white;
-  border-radius:6px;
-  padding:2px 6px;
-  cursor:pointer;
-  border:none;
-  font-weight:800;
-  margin-left:auto;
-  font-size:12px;
-}
-.delete-slot-btn{
-  background:var(--danger);
-  color:white;
-  border-radius:8px;
-  padding:4px 8px;
-  cursor:pointer;
-  border:none;
-  font-weight:900;
-  font-size:14px;
-}
-.toast{
-  position:fixed;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:26px;
-  background:rgba(40,90,60,0.95);
-  color:white;
-  padding:10px 16px;
-  border-radius:10px;
-  font-weight:700;
-  display:none;
-}
-@media(max-width:860px){
-  .lists{grid-template-columns:1fr}
-}
+body{margin:0;background:linear-gradient(180deg,var(--bg), #e6f2ea);font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;color:var(--text);padding:12px;}
+.wrap{max-width:920px;margin:0 auto;}
+header{display:flex;flex-direction:column;gap:6px;padding:12px 6px;}
+h1{font-size:28px;margin:0;}
+.lead{color:var(--muted);font-size:14px;}
+.station{font-size:15px;font-weight:800;color:#2f7a57;}
+.card{background:var(--card);border-radius:12px;padding:14px;margin:12px 0;box-shadow:0 6px 18px rgba(50,80,60,0.03);}
+.buttons-row{display:flex;flex-direction:column;gap:10px;}
+.time-btn{padding:14px;font-size:17px;font-weight:800;border-radius:12px;border:2px solid transparent;background:linear-gradient(180deg,#e0f7e8,#d9f0e0);color:var(--accent);cursor:pointer;text-align:center;}
+.time-btn.selected{background:var(--accent);color:#fff;transform:translateY(-2px);}
+.name-area{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+.name-input{flex:1;padding:14px;font-size:18px;border-radius:10px;border:3px solid #fff176;background:#fffdf6;}
+.add-btn{padding:14px 18px;font-size:18px;border-radius:10px;background:var(--accent);color:#fff;border:none;font-weight:900;cursor:pointer;}
+.lists{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+.list-title{background:var(--accent);color:#fff;padding:8px;border-radius:8px;text-align:center;font-weight:900;}
+.slot-card{padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fafaf6);border:1px solid rgba(45,80,60,0.06);}
+.slot-info{font-weight:900;color:var(--accent);}
+.slot-desc{color:var(--muted);margin-top:4px;}
+.slot-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px;}
+.seat{min-height:44px;border-radius:8px;padding:8px;border:1px dashed rgba(47,122,87,0.08);display:flex;align-items:center;gap:8px;font-size:15px;}
+.seat.filled{background:linear-gradient(180deg,#e6fff1,#ddfbe6);}
+.cancel-btn{margin-left:auto;background:var(--danger);color:#fff;border:none;padding:6px 8px;border-radius:6px;cursor:pointer;font-weight:800;}
+.delete-slot-btn{margin-top:10px;width:100%;background:var(--danger);color:#fff;border:none;padding:8px;border-radius:8px;font-weight:900;cursor:pointer;}
+.info-line{font-size:13px;color:var(--muted);margin-top:6px;}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:rgba(40,90,60,0.95);color:#fff;padding:10px 14px;border-radius:10px;display:none;}
+.loading{display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid rgba(0,0,0,0.1);border-top-color:var(--accent);animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:860px){.lists{grid-template-columns:1fr}}
+.small-muted{font-size:13px;color:#6e6e6e}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <header>
+    <h1>🚕 共乘服務</h1>
+    <div class="lead">長輩友善 · 單一選擇按鈕快速選擇時段</div>
+    <div class="station">📍 烏日高鐵站上車地點: 1F 載客區，1號會面點</div>
+  </header>
 
-<header>
-  <h1>🚕 共乘服務</h1>
-  <p class="lead">長輩友善 · 單一選擇按鈕快速選擇時段</p>
-  <p class="station">📍 烏日高鐵站上車地點: 1F 載客區，1號會面點</p>
-</header>
+  <div class="card" aria-live="polite">
+    <div id="topInfo" class="info-line small-muted">載入中… <span class="loading" id="topLoading"></span></div>
 
-<div class="card" aria-live="polite">
-  <div class="buttons-row" id="buttonsRow">
-    <!-- 按鈕由 JS 生成 -->
-  </div>
+    <div class="buttons-row" id="buttonsRow"></div>
 
-  <div class="name-area">
-    <div class="name-input-wrap">
-      <div class="name-label">👉 請在此輸入您的名字（範例：洪千淑）</div>
-      <input id="nameInput" class="name-input" type="text" placeholder="請輸入中文全名"/>
-      <div class="arrow-tip">加入 ➜</div>
+    <div class="name-area">
+      <input id="nameInput" class="name-input" placeholder="請輸入中文全名（範例：洪千淑）" />
+      <button id="btnJoin" class="add-btn">加入名單</button>
     </div>
-    <button class="add-btn" onclick="joinSelected()">加入名單</button>
+    <div class="info-line" id="remainInfo"></div>
+  </div>
+
+  <div class="lists">
+    <div>
+      <div class="list-title">去程</div>
+      <div id="goListArea"></div>
+    </div>
+    <div>
+      <div class="list-title">回程</div>
+      <div id="backListArea"></div>
+    </div>
   </div>
 </div>
 
-<div class="lists">
-  <div>
-    <div class="list-title">去程</div>
-    <div id="goListArea"></div>
-  </div>
-  <div>
-    <div class="list-title">回程</div>
-    <div id="backListArea"></div>
-  </div>
-</div>
-
-</div>
 <div id="toast" class="toast"></div>
 
 <script>
-const FIXED_QUOTA=16;
-let rides=JSON.parse(localStorage.getItem('rides_travel_v4'))||[];
-let SELECTED={type:null,date:null,time:null,desc:null};
-let scrollToIdx=null;
-
-// 時段按鈕設定
-const SLOT_OPTIONS=[
-  {type:'go', date:'2025-12-12', time:'15:40', desc:'前一天入住'},
-  {type:'go', date:'2025-12-13', time:'07:30', desc:'早上'},
-  {type:'go', date:'2025-12-14', time:'07:30', desc:'早上'},
-  {type:'back', date:'2025-12-13', time:'17:30', desc:'回程'},
-  {type:'back', date:'2025-12-14', time:'17:10', desc:'回程'}
+/* ======= 前端 (index.html) =======
+   - 這個檔案是前端：放到 GitHub Pages 或直接開啟
+   - 請把 API_URL 改成你部署後的 Apps Script exec URL
+*/
+const API_URL = "https://script.google.com/macros/s/AKfycbyr2dnJbEIHO9X8ditDnhOMWnAr2q1o_GAgleDxvBfhzE2mOmC3RN2VaLI5z8yQ2OEdMA/exec"; // <- 若後端重新部署，請改為最新 exec URL
+const FIXED_QUOTA = 16;
+const SLOT_OPTIONS = [
+  { type:'go', date:'2025-12-12', time:'15:40', desc:'前一天入住' },
+  { type:'go', date:'2025-12-13', time:'07:30', desc:'早上' },
+  { type:'go', date:'2025-12-14', time:'07:30', desc:'早上' },
+  { type:'back', date:'2025-12-13', time:'17:30', desc:'回程' },
+  { type:'back', date:'2025-12-14', time:'17:10', desc:'回程' }
 ];
 
-function toast(msg,timeout=1600){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.style.display='block';
-  setTimeout(()=>t.style.display='none',timeout);
+let rides = [];        // 後端回來的 raw 資料 array
+let SELECTED = null;   // 目前選到的 slot object
+let scrollToId = null; // 加入後要滾動到的 id
+
+/* ---------- helpers ---------- */
+function $ (id){return document.getElementById(id);}
+function toast(msg,timeout=1800){
+  const t=$('toast'); t.textContent=msg; t.style.display='block';
+  setTimeout(()=>t.style.display='none', timeout);
+}
+function showTopLoading(show){
+  $('topLoading').style.display = show ? 'inline-block' : 'none';
 }
 
-// 取得星期
-function getWeekday(d){
-  const dt=new Date(d+'T00:00:00');
+/* 形成按鈕文字，顯示星期 */
+function weekdayOf(dateStr){
+  const dt = new Date(dateStr + 'T00:00:00');
   return ['日','一','二','三','四','五','六'][dt.getDay()];
 }
+function slotLabel(s){
+  // 輸出：12/12(五) 下午15:40（前一天入住）
+  const mmdd = s.date.slice(5).replace('-','/');
+  const w = weekdayOf(s.date);
+  const ampm = Number(s.time.split(':')[0]) < 12 ? '早上' : '下午';
+  return `${mmdd}(${w}) ${ampm}${s.time}（${s.desc}）`;
+}
 
-// 生成按鈕
-const buttonsRow=document.getElementById('buttonsRow');
-SLOT_OPTIONS.forEach(s=>{
-  const btn=document.createElement('button');
-  btn.className='time-btn';
-  const weekday=getWeekday(s.date);
-  btn.textContent=`${s.date}(${weekday}) ${s.time} ${s.desc}`;
-  btn.onclick=()=>chooseSlot(s.type,s.date,s.time,s.desc,btn);
-  buttonsRow.appendChild(btn);
+/* ---------- 產生五個大按鈕 ---------- */
+function renderSlotButtons(){
+  const wrap = $('buttonsRow'); wrap.innerHTML = '';
+  SLOT_OPTIONS.forEach(s=>{
+    const btn = document.createElement('button');
+    btn.className = 'time-btn';
+    btn.textContent = slotLabel(s);
+    btn.onclick = ()=> {
+      SELECTED = s;
+      document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      toast('已選擇時段：' + s.date + ' ' + s.time);
+      updateRemainInfo();
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+/* ---------- 請求 API ---------- */
+async function apiGet(){
+  showTopLoading(true);
+  try{
+    const res = await fetch(API_URL);
+    const json = await res.json();
+    if(!json.success) throw new Error('後端回傳錯誤');
+    rides = json.data || [];
+    renderLists();
+  }catch(err){
+    console.error(err);
+    toast('無法取得資料，請檢查網路或後端部署');
+  }finally{
+    showTopLoading(false);
+  }
+}
+
+async function apiPostAdd(payload){
+  const body = Object.assign({ action: 'add' }, payload);
+  const res = await fetch(API_URL, { method:'POST', body: JSON.stringify(body) });
+  return res.json();
+}
+
+async function apiPostAction(action, payload){
+  const body = Object.assign({ action }, payload);
+  const res = await fetch(API_URL, { method:'POST', body: JSON.stringify(body) });
+  return res.json();
+}
+
+/* ---------- 加入名單 ---------- */
+$('btnJoin').addEventListener('click', async ()=>{
+  const name = $('nameInput').value.trim();
+  if(!SELECTED){ alert('請先選擇時段'); return; }
+  if(!name){ alert('請輸入姓名'); $('nameInput').focus(); return; }
+
+  // 名額檢查（即時以前端計算，但最終會由後端資料決定）
+  const slotKey = (s)=> `${s.type}|${s.date}|${s.time}|${s.desc}`;
+  const existing = rides.filter(r => slotKey(r) === slotKey(SELECTED));
+  if(existing.length >= FIXED_QUOTA){
+    alert('此時段已滿 ' + FIXED_QUOTA + ' 人');
+    return;
+  }
+
+  $('btnJoin').disabled = true;
+  $('btnJoin').textContent = '加入中…';
+  try{
+    const payload = { date: SELECTED.date, time: SELECTED.time, type: SELECTED.type, desc: SELECTED.desc, name };
+    const json = await apiPostAdd(payload);
+    if(json && json.success){
+      $('nameInput').value = '';
+      toast('已加入名單');
+      // 讓 renderLists 在下一次 fetch 時滾動到新增的那個 id（若後端回傳 id）
+      scrollToId = json.id || null;
+      await apiGet(); // 重新讀取最新資料
+    } else {
+      throw new Error(json && json.message ? json.message : '新增失敗');
+    }
+  }catch(err){
+    console.error(err);
+    toast('加入失敗，請稍後再試');
+  }finally{
+    $('btnJoin').disabled = false;
+    $('btnJoin').textContent = '加入名單';
+  }
 });
 
-function chooseSlot(type,date,time,desc,btn){
-  SELECTED={type,date,time,desc};
-  document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('selected'));
-  btn.classList.add('selected');
-  toast('已選擇時段：'+date+' '+time);
-}
-
-function joinSelected(){
-  const nameInput=document.getElementById('nameInput');
-  const name=nameInput.value.trim();
-  if(!SELECTED.date){alert('請先選擇時段'); return;}
-  if(!name){alert('請輸入姓名'); nameInput.focus(); return;}
-  let found=rides.find(r=>r.date===SELECTED.date&&r.type===SELECTED.type&&r.time===SELECTED.time&&r.desc===SELECTED.desc);
-  if(found){
-    if(found.names.length>=FIXED_QUOTA){alert('此時段名額已滿'); return;}
-    found.names.push(name);
-    scrollToIdx=rides.indexOf(found);
-  }else{
-    rides.push({date:SELECTED.date,type:SELECTED.type,time:SELECTED.time,desc:SELECTED.desc,names:[name]});
-    scrollToIdx=rides.length-1;
+/* ---------- 刪除單筆姓名（透過 id） ---------- */
+async function deleteName(id){
+  if(!confirm('確定刪除此姓名？')) return;
+  try{
+    const json = await apiPostAction('deleteName', { id });
+    if(json && json.success){
+      toast('已刪除');
+      await apiGet();
+    } else {
+      throw new Error(json.message||'刪除失敗');
+    }
+  }catch(err){
+    toast('刪除失敗');
   }
-  localStorage.setItem('rides_travel_v4',JSON.stringify(rides));
-  nameInput.value='';
-  toast('已加入名單 ✔');
-  renderLists();
 }
 
-function removeName(idx,name){
-  if(!confirm('確定要刪除這個姓名嗎？')) return;
-  rides[idx].names=rides[idx].names.filter(n=>n!==name);
-  localStorage.setItem('rides_travel_v4',JSON.stringify(rides));
-  renderLists();
-  toast('已刪除');
+/* ---------- 刪除整個時段（type+date+time+desc） ---------- */
+async function deleteSlot(type,date,time,desc){
+  if(!confirm('確定刪除整個時段全部名單？')) return;
+  try{
+    const json = await apiPostAction('deleteSlot', { type, date, time, desc });
+    if(json && json.success){
+      toast('已刪除時段');
+      await apiGet();
+    } else {
+      throw new Error(json.message||'刪除時段失敗');
+    }
+  }catch(err){
+    toast('刪除時段失敗');
+  }
 }
 
-function deleteSlot(idx){
-  if(!confirm('確定要刪除整個時段嗎？')) return;
-  rides.splice(idx,1);
-  localStorage.setItem('rides_travel_v4',JSON.stringify(rides));
-  renderLists();
-  toast('已刪除整個時段');
-}
-
+/* ---------- render lists (grouping) ---------- */
 function renderLists(){
+  // rides 為 array of objects: {id,date,time,type,desc,name,createdAt}
+  // 先依 date,time 排序
   rides.sort((a,b)=>{
-    if(a.date===b.date) return a.time.localeCompare(b.time);
+    if(a.date === b.date) return a.time.localeCompare(b.time);
     return a.date.localeCompare(b.date);
   });
-  const goArea=document.getElementById('goListArea');
-  const backArea=document.getElementById('backListArea');
-  goArea.innerHTML=''; backArea.innerHTML='';
-  rides.forEach((slot,idx)=>{
-    const container=document.createElement('div');
-    container.className='slot-card';
-    const head=document.createElement('div'); head.className='slot-head';
-    const info=document.createElement('div');
-    const locationText=(slot.type==='go')?'烏日高鐵站上車地點: 1F 載客區，1號會面點':'菘畫居';
-    info.innerHTML=`<div class="slot-info">${slot.type==='go'? '台中高鐵 → 菘畫居' : '菘畫居 → 台中高鐵'}｜${locationText}</div>
-                      <div class="slot-desc">${slot.date} ｜ ${slot.time} · ${slot.desc}</div>`;
-    head.appendChild(info);
 
-    const deleteBtn=document.createElement('button');
-    deleteBtn.className='delete-slot-btn';
-    deleteBtn.textContent='刪除整個時段';
-    deleteBtn.onclick=()=>deleteSlot(idx);
-    head.appendChild(deleteBtn);
+  // 將同一 slot 聚合為一個物件: { date,time,type,desc, items: [{id,name}] }
+  const slots = [];
+  const mapKey = (r)=> `${r.type}|${r.date}|${r.time}|${r.desc}`;
+  const map = {};
+  rides.forEach(r=>{
+    const k = mapKey(r);
+    if(!map[k]) map[k] = { type:r.type, date:r.date, time:r.time, desc:r.desc, items: [] };
+    map[k].items.push({ id: r.id, name: r.name, createdAt: r.createdAt });
+  });
+  Object.keys(map).forEach(k=> slots.push(map[k]));
 
-    container.appendChild(head);
+  // render slots into go/back area
+  const goArea = $('goListArea'); const backArea = $('backListArea');
+  goArea.innerHTML = ''; backArea.innerHTML = '';
 
-    const seats=document.createElement('div'); seats.className='slot-list';
-    for(let i=0;i<FIXED_QUOTA;i++){
-      const s=document.createElement('div'); 
-      s.className='seat '+(slot.names[i]?'filled':'empty');
-      s.textContent=slot.names[i]||'空位';
-      if(slot.names[i]){
-        const btn=document.createElement('button');
-        btn.className='cancel-btn';
-        btn.textContent='❌';
-        btn.onclick=()=>removeName(idx,slot.names[i]);
-        s.appendChild(btn);
-      }
+  slots.forEach((slot, idx) => {
+    const container = document.createElement('div'); container.className='slot-card';
+    const info = document.createElement('div'); info.className='slot-info';
+    const locationText = slot.type==='go' ? '烏日高鐵站上車地點: 1F 載客區，1號會面點' : '菘畫居';
+    info.textContent = `${slot.type==='go' ? '台中高鐵 → 菘畫居' : '菘畫居 → 台中高鐵'}｜${locationText}`;
+    const desc = document.createElement('div'); desc.className='slot-desc'; desc.textContent = `${slot.date} ｜ ${slot.time} · ${slot.desc}`;
+    container.appendChild(info); container.appendChild(desc);
+
+    // seats grid
+    const seats = document.createElement('div'); seats.className='slot-list';
+    // show existing names first
+    slot.items.forEach(it=>{
+      const s = document.createElement('div'); s.className='seat filled'; s.textContent = it.name;
+      const btn = document.createElement('button'); btn.className = 'cancel-btn'; btn.textContent = '刪除';
+      btn.onclick = ()=> deleteName(it.id);
+      s.appendChild(btn);
+      seats.appendChild(s);
+    });
+    // empty seats
+    const emptyCount = Math.max(0, FIXED_QUOTA - slot.items.length);
+    for(let i=0;i<emptyCount;i++){
+      const s = document.createElement('div'); s.className='seat'; s.textContent = '空位';
       seats.appendChild(s);
     }
+
     container.appendChild(seats);
 
-    if(slot.type==='go') goArea.appendChild(container);
-    else backArea.appendChild(container);
+    // 顯示刪除時段按鈕（明顯）
+    const delBtn = document.createElement('button'); delBtn.className='delete-slot-btn'; delBtn.textContent='刪除此時段全部名單';
+    delBtn.onclick = ()=> deleteSlot(slot.type, slot.date, slot.time, slot.desc);
+    container.appendChild(delBtn);
 
-    if(scrollToIdx!==null && idx===scrollToIdx){
-      setTimeout(()=>{container.scrollIntoView({behavior:'smooth', block:'center'}); scrollToIdx=null; },150);
+    if(slot.type === 'go') goArea.appendChild(container); else backArea.appendChild(container);
+
+    // 如果需要滾動到剛剛新增的 id（scrollToId），定位後滾動
+    if(scrollToId){
+      // 如果 slot.items 裡包含該 id，滾動
+      const found = slot.items.find(x=>x.id === scrollToId);
+      if(found){
+        setTimeout(()=>{ container.scrollIntoView({behavior:'smooth', block:'center'}); scrollToId = null; }, 200);
+      }
     }
   });
+
+  updateRemainInfo();
 }
 
-renderLists();
+/* ---------- 顯示剩餘名額簡易提示 ---------- */
+function updateRemainInfo(){
+  if(!SELECTED){ $('remainInfo').textContent = '請選擇時段'; return; }
+  // 找到該 slot
+  const key = (s)=> `${s.type}|${s.date}|${s.time}|${s.desc}`;
+  const curCount = rides.filter(r => key(r) === key(SELECTED)).length;
+  const left = Math.max(0, FIXED_QUOTA - curCount);
+  $('remainInfo').textContent = `此時段剩餘名額：${left} / ${FIXED_QUOTA}`;
+}
+
+/* ---------- auto refresh 每 3 秒拉一次最新資料 ---------- */
+let pollTimer = null;
+function startPolling(){
+  if(pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(()=> apiGet(), 3000);
+}
+
+/* ---------- init ---------- */
+function init(){
+  renderSlotButtons();
+  apiGet();
+  startPolling();
+}
+init();
+
 </script>
 </body>
 </html>
