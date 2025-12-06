@@ -1,379 +1,198 @@
-<!DOCTYPE html>
+<!DOCTYPE ht<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>共乘服務</title>
-<link rel="icon" type="image/png" href="./icon.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>團體接駁車報名表</title>
+  <link rel="icon" type="image/png" href="./icon.png">
 <link rel="apple-touch-icon" href="./icon.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./icon.png">
-<meta name="description" content="共乘服務 - 旅行風長輩友善" />
-<style>
-:root{
-  --bg:#f0f9f4; --card:#fffefc; --accent:#1d4d2f; --accent-light:#6aa37f;
-  --text:#1b3b30; --muted:#4b5a4f; --danger:#d9534f;
-}
-*{box-sizing:border-box;}
-body{margin:0;background:linear-gradient(180deg,var(--bg), #e6f2ea);font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;color:var(--text);padding:12px;}
-.wrap{max-width:920px;margin:0 auto;}
-header{display:flex;flex-direction:column;gap:6px;padding:12px 6px;}
-h1{font-size:28px;margin:0;}
-.lead{color:var(--muted);font-size:14px;}
-.station{font-size:15px;font-weight:800;color:#2f7a57;}
-.card{background:var(--card);border-radius:12px;padding:14px;margin:12px 0;box-shadow:0 6px 18px rgba(50,80,60,0.03);}
-.buttons-row{display:flex;flex-direction:column;gap:10px;}
-.time-btn{padding:14px;font-size:17px;font-weight:800;border-radius:12px;border:2px solid transparent;background:linear-gradient(180deg,#fff7d9,#ffeaa3);color:#6b4a05;cursor:pointer;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,0.04);}
-.time-btn.selected{background:#ffc107;color:#3b2b00;transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.12);}
-.name-area{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
-.name-input{flex:1;padding:14px;font-size:18px;border-radius:10px;border:3px solid #fff176;background:#fffdf6;}
-.add-btn{padding:14px 18px;font-size:18px;border-radius:10px;background:var(--accent);color:#fff;border:none;font-weight:900;cursor:pointer;}
-.lists{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
-.list-title{background:var(--accent);color:#fff;padding:8px;border-radius:8px;text-align:center;font-weight:900;}
-.slot-card{padding:12px;border-radius:14px;background:linear-gradient(180deg,#fff,#f7fff2);border:1px solid rgba(45,80,60,0.06);box-shadow:0 6px 18px rgba(45,80,60,0.03);margin-bottom:10px;}
-.slot-info{font-weight:900;color:#25573b;font-size:16px;}
-.slot-desc{color:var(--muted);margin-top:6px;font-size:15px;}
-.slot-line{margin-top:6px;font-size:15px;color:#2f6e4f;}
-.slot-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;}
-.seat{min-height:44px;border-radius:8px;padding:8px;border:1px dashed rgba(47,122,87,0.08);display:flex;align-items:center;gap:8px;font-size:15px;background:#fff;}
-.seat.filled{background:linear-gradient(180deg,#e6fff1,#ddfbe6);}
-.cancel-btn{margin-left:auto;background:#d9534f;color:#fff;border:none;padding:6px 8px;border-radius:6px;cursor:pointer;font-weight:800;}
-.delete-slot-btn{margin-top:10px;width:100%;background:#c62828;color:#fff;border:none;padding:10px;border-radius:10px;font-weight:900;cursor:pointer;}
-.info-line{font-size:13px;color:var(--muted);margin-top:6px;}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:rgba(40,90,60,0.95);color:#fff;padding:10px 14px;border-radius:10px;display:none;z-index:9999;}
-.loading{display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid rgba(0,0,0,0.1);border-top-color:var(--accent);animation:spin 1s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:860px){.lists{grid-template-columns:1fr}}
-.small-muted{font-size:13px;color:#6e6e6e}
-</style>
+
+  <style>
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #334155;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 16px;
+    }
+
+    button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    button:hover {
+      background: #2563eb;
+    }
+
+    .card {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 14px;
+      border-left: 6px solid #3b82f6;
+    }
+
+    .name-tag {
+      display: inline-block;
+      background: #3b82f6;
+      padding: 6px 12px;
+      border-radius: 20px;
+      color: white;
+      font-size: 15px;
+      margin-right: 6px;
+      margin-top: 6px;
+    }
+
+    .delete-btn {
+      background: #ef4444;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-left: 8px;
+      color: white;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+  </style>
 </head>
+
 <body>
-<div class="wrap">
-  <header>
-    <h1>🚕 共乘服務</h1>
-    <div class="lead">旅行風 • 長輩友善 • 手機優化</div>
-    <div class="station">📍 烏日高鐵站上車地點: 1F 載客區，1號會面點</div>
-  </header>
+  <h1>接駁車報名系統</h1>
 
-  <div class="card" aria-live="polite">
-    <div id="topInfo" class="info-line small-muted">載入中… <span class="loading" id="topLoading"></span></div>
+  <div class="container">
+    <label>你的名字</label>
+    <input id="nameInput" placeholder="請輸入姓名" />
 
-    <div class="buttons-row" id="buttonsRow"></div>
+    <label>選擇日期</label>
+    <input id="dateInput" type="date" />
 
-    <div class="name-area">
-      <input id="nameInput" class="name-input" placeholder="請輸入中文全名（範例：洪千淑）" />
-      <button id="btnJoin" class="add-btn">加入名單</button>
-    </div>
-    <div class="info-line" id="remainInfo"></div>
+    <label>選擇時間</label>
+    <input id="timeInput" type="time" />
+
+    <button onclick="addRecord()">加入</button>
+
+    <hr style="margin: 20px 0;">
+
+    <h2 style="color:#334155">目前報名狀況</h2>
+    <div id="listContainer"></div>
   </div>
 
-  <div class="lists">
-    <div>
-      <div class="list-title">去程</div>
-      <div id="goListArea"></div>
-    </div>
-    <div>
-      <div class="list-title">回程</div>
-      <div id="backListArea"></div>
-    </div>
-  </div>
-</div>
+  <script>
+    const API =
+      "https://script.google.com/macros/s/AKfycbxghtAVZ95YIiva-5bv39wPQJyY3qJJporuujwF6Kdb2G8T1RaZn5e0ISNo5e2VsPpdaA/exec";
 
-<div id="toast" class="toast"></div>
+    // 🚀 一載入就抓資料
+    window.onload = loadData;
 
-<script>
-/* ======= 前端 (index.html) =======
-   - 把 API_URL 換成你部署後的 Apps Script exec URL
-*/
-const API_URL = "https://script.google.com/macros/s/AKfycbwk-2tYwoRW3iKBFYm8uFrGHd0zrQLNBKM-sKzkeUXrQtswKDPt0L6wV89YyuneT0tNlA/exec"; // <- **部署後把你的 exec URL 貼在這裡**
-const FIXED_QUOTA = 16;
-const SLOT_OPTIONS = [
-  { type:'go', date:'2025-12-12', time:'15:40', desc:'前一天入住' },
-  { type:'go', date:'2025-12-13', time:'07:30', desc:'早上' },
-  { type:'go', date:'2025-12-14', time:'07:30', desc:'早上' },
-  { type:'back', date:'2025-12-13', time:'17:30', desc:'回程' },
-  { type:'back', date:'2025-12-14', time:'17:10', desc:'回程' }
-];
-
-let rides = [];        // 後端回來的 raw 資料 array
-let SELECTED = null;   // 目前選到的 slot object
-let scrollToId = null; // 加入後要滾動到的 id
-
-/* ---------- helpers ---------- */
-function $ (id){return document.getElementById(id);}
-function toast(msg,timeout=1800){
-  const t=$('toast'); t.textContent=msg; t.style.display='block';
-  setTimeout(()=>t.style.display='none', timeout);
-}
-function showTopLoading(show){
-  $('topLoading').style.display = show ? 'inline-block' : 'none';
-}
-
-/* 轉換與格式化 */
-function weekdayOf(dateStr){
-  const dt = new Date(dateStr + 'T00:00:00');
-  return ['日','一','二','三','四','五','六'][dt.getDay()];
-}
-function formatPrettyDate(dateStr){
-  if(!dateStr) return '';
-  const dt = new Date(dateStr + 'T00:00:00');
-  if(isNaN(dt.getTime())) return dateStr;
-  const mm = String(dt.getMonth()+1).padStart(2,'0');
-  const dd = String(dt.getDate()).padStart(2,'0');
-  const w = ['日','一','二','三','四','五','六'][dt.getDay()];
-  return `${mm}/${dd}（${w}）`;
-}
-function formatPrettyTime(timeStr){
-  if(!timeStr) return '';
-  // timeStr is like "15:40"
-  return timeStr;
-}
-function slotLabel(s){
-  const mmdd = s.date.slice(5).replace('-','/');
-  const w = weekdayOf(s.date);
-  const ampm = Number(s.time.split(':')[0]) < 12 ? '早上' : '下午';
-  return `${mmdd}(${w}) ${ampm}${s.time}（${s.desc}）`;
-}
-
-/* ---------- 產生按鈕 ---------- */
-function renderSlotButtons(){
-  const wrap = $('buttonsRow'); wrap.innerHTML = '';
-  SLOT_OPTIONS.forEach(s=>{
-    const btn = document.createElement('button');
-    btn.className = 'time-btn';
-    btn.textContent = slotLabel(s);
-    btn.onclick = ()=> {
-      SELECTED = s;
-      document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('selected'));
-      btn.classList.add('selected');
-      toast('已選擇時段：' + s.date + ' ' + s.time);
-      updateRemainInfo();
-    };
-    wrap.appendChild(btn);
-  });
-}
-
-/* ---------- API ---------- */
-async function apiGet(){
-  showTopLoading(true);
-  try{
-    const res = await fetch(API_URL);
-    const json = await res.json();
-    if(!json.success) throw new Error('後端回傳錯誤');
-    rides = json.data || [];
-    renderLists();
-  }catch(err){
-    console.error(err);
-    toast('無法取得資料，請檢查網路或後端部署');
-  }finally{
-    showTopLoading(false);
-  }
-}
-
-async function apiPostAdd(payload){
-  const body = Object.assign({ action: 'add' }, payload);
-  const res = await fetch(API_URL, { method:'POST', body: JSON.stringify(body) });
-  return res.json();
-}
-
-async function apiPostAction(action, payload){
-  const body = Object.assign({ action }, payload);
-  const res = await fetch(API_URL, { method:'POST', body: JSON.stringify(body) });
-  return res.json();
-}
-
-/* ---------- 加入名單 ---------- */
-$('btnJoin').addEventListener('click', async ()=>{
-  const name = $('nameInput').value.trim();
-  if(!SELECTED){ alert('請先選擇時段'); return; }
-  if(!name){ alert('請輸入姓名'); $('nameInput').focus(); return; }
-
-  const slotKey = (s)=> `${s.type}|${s.date}|${s.time}|${s.desc}`;
-  const existing = rides.filter(r => slotKey(r) === slotKey(SELECTED));
-  if(existing.length >= FIXED_QUOTA){
-    alert('此時段已滿 ' + FIXED_QUOTA + ' 人');
-    return;
-  }
-
-  $('btnJoin').disabled = true;
-  $('btnJoin').textContent = '加入中…';
-  try{
-    const payload = { date: SELECTED.date, time: SELECTED.time, type: SELECTED.type, desc: SELECTED.desc, name };
-    const json = await apiPostAdd(payload);
-    if(json && json.success){
-      $('nameInput').value = '';
-      toast('已加入名單');
-      scrollToId = json.id || null;
-      await apiGet();
-    } else {
-      throw new Error(json && json.message ? json.message : '新增失敗');
+    function loadData() {
+      fetch(API)
+        .then((res) => res.json())
+        .then((data) => {
+          renderLists(data);
+        })
+        .catch(() => alert("資料載入失敗"));
     }
-  }catch(err){
-    console.error(err);
-    toast('加入失敗，請稍後再試');
-  }finally{
-    $('btnJoin').disabled = false;
-    $('btnJoin').textContent = '加入名單';
-  }
-});
 
-/* ---------- 刪除單筆 / 刪除時段 ---------- */
-async function deleteName(id){
-  if(!confirm('確定刪除此姓名？')) return;
-  try{
-    const json = await apiPostAction('deleteName', { id });
-    if(json && json.success){
-      toast('已刪除');
-      await apiGet();
-    } else {
-      throw new Error(json.message||'刪除失敗');
-    }
-  }catch(err){
-    toast('刪除失敗');
-  }
-}
+    async function addRecord() {
+      const name = document.getElementById("nameInput").value.trim();
+      const date = document.getElementById("dateInput").value;
+      const time = document.getElementById("timeInput").value;
 
-async function deleteSlot(type,date,time,desc){
-  if(!confirm('確定刪除整個時段全部名單？')) return;
-  try{
-    const json = await apiPostAction('deleteSlot', { type, date, time, desc });
-    if(json && json.success){
-      toast('已刪除時段');
-      await apiGet();
-    } else {
-      throw new Error(json.message||'刪除時段失敗');
-    }
-  }catch(err){
-    toast('刪除時段失敗');
-  }
-}
-
-/* ---------- 完整 renderLists()（美化版） ---------- */
-function renderLists() {
-  const slotKey = (s) => `${s.type}|${s.date}|${s.time}|${s.desc}`;
-
-  // 分組 rides：key = type|date|time|desc → array of rows
-  const groups = {};
-  rides.forEach(r => {
-    const key = slotKey(r);
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(r);
-  });
-
-  // 以預設 SLOT_OPTIONS 為主順序（若後端有其他時段也會被忽略）
-  const sortedSlots = SLOT_OPTIONS.slice().sort((a,b)=>{
-    const ad = a.date + ' ' + a.time;
-    const bd = b.date + ' ' + b.time;
-    return ad.localeCompare(bd);
-  });
-
-  const goArea = $('goListArea');
-  const backArea = $('backListArea');
-  goArea.innerHTML = '';
-  backArea.innerHTML = '';
-
-  sortedSlots.forEach(slot => {
-    const key = slotKey(slot);
-    const list = groups[key] || [];
-
-    const card = document.createElement('div');
-    card.className = 'slot-card';
-
-    // header: 路線 + 地點
-    const infoDiv = document.createElement('div');
-    infoDiv.className = 'slot-info';
-    infoDiv.textContent = slot.type === 'go' ? '台中高鐵 → 菘畫居' : '菘畫居 → 台中高鐵';
-    card.appendChild(infoDiv);
-
-    // place
-    const placeLine = document.createElement('div');
-    placeLine.className = 'slot-line';
-    placeLine.textContent = slot.type === 'go' ? '📍 烏日高鐵站上車地點：1F 載客區，1號會面點' : '📍 菘畫居';
-    card.appendChild(placeLine);
-
-    // date/time & desc
-    const dtLine = document.createElement('div');
-    dtLine.className = 'slot-line';
-    dtLine.innerHTML = `🕒 ${formatPrettyDate(slot.date)} ${formatPrettyTime(slot.time)} &nbsp; <span style="color:#6e6e6e">· ${slot.desc}</span>`;
-    card.appendChild(dtLine);
-
-    // quota info
-    const quotaLine = document.createElement('div');
-    quotaLine.className = 'info-line';
-    quotaLine.textContent = `名額：${list.length} / ${FIXED_QUOTA}`;
-    card.appendChild(quotaLine);
-
-    // seats
-    const grid = document.createElement('div');
-    grid.className = 'slot-list';
-
-    for (let i = 0; i < FIXED_QUOTA; i++) {
-      const box = document.createElement('div');
-      box.className = 'seat';
-      if (list[i]) {
-        box.classList.add('filled');
-        box.id = 'seat-' + list[i].id;
-        const nameSpan = document.createElement('span');
-        nameSpan.textContent = list[i].name;
-        box.appendChild(nameSpan);
-        const btn = document.createElement('button');
-        btn.className = 'cancel-btn';
-        btn.textContent = '刪除';
-        btn.onclick = ()=> deleteName(list[i].id);
-        box.appendChild(btn);
-      } else {
-        box.textContent = '空位';
+      if (!name || !date || !time) {
+        alert("請填寫完整資訊");
+        return;
       }
-      grid.appendChild(box);
+
+      const body = {
+        action: "add",
+        name,
+        date,
+        time,
+      };
+
+      await fetch(API, {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+
+      // ❗加入後馬上更新 UI（你的原本版本就是缺這個）
+      loadData();
     }
-    card.appendChild(grid);
 
-    // delete slot button (顯眼)
-    const delAllBtn = document.createElement('button');
-    delAllBtn.className = 'delete-slot-btn';
-    delAllBtn.textContent = '刪除此時段全部名單';
-    delAllBtn.onclick = ()=> deleteSlot(slot.type, slot.date, slot.time, slot.desc);
-    card.appendChild(delAllBtn);
+    async function deleteRecord(id) {
+      const body = {
+        action: "delete",
+        id,
+      };
 
-    if (slot.type === 'go') goArea.appendChild(card);
-    else backArea.appendChild(card);
-  });
+      await fetch(API, {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
 
-  // 滾動到新增的 id（如有）
-  if (scrollToId) {
-    const el = document.getElementById('seat-' + scrollToId);
-    if (el) {
-      setTimeout(()=>{ el.scrollIntoView({behavior:'smooth', block:'center'}); scrollToId = null; }, 150);
-    } else {
-      scrollToId = null;
+      loadData();
     }
-  }
 
-  updateRemainInfo();
-}
+    // -----------------------------------------------------
+    // ❗ renderLists：重新整理區塊（新版已修正並美化）
+    // -----------------------------------------------------
+    function renderLists(data) {
+      const container = document.getElementById("listContainer");
+      container.innerHTML = "";
 
-/* ---------- 顯示剩餘名額 ---------- */
-function updateRemainInfo(){
-  if(!SELECTED){ $('remainInfo').textContent = '請選擇時段'; return; }
-  const key = (s)=> `${s.type}|${s.date}|${s.time}|${s.desc}`;
-  const curCount = rides.filter(r => key(r) === key(SELECTED)).length;
-  const left = Math.max(0, FIXED_QUOTA - curCount);
-  $('remainInfo').textContent = `此時段剩餘名額：${left} / ${FIXED_QUOTA}`;
-}
+      data.forEach((group) => {
+        const card = document.createElement("div");
+        card.className = "card";
 
-/* ---------- auto refresh ---------- */
-let pollTimer = null;
-function startPolling(){
-  if(pollTimer) clearInterval(pollTimer);
-  pollTimer = setInterval(()=> apiGet(), 3000);
-}
+        // 日期 + 時間標題
+        const title = document.createElement("h3");
+        title.innerHTML = `📅 ${group.date}　🕒 ${group.time}`;
+        card.appendChild(title);
 
-/* ---------- init ---------- */
-function init(){
-  renderSlotButtons();
-  apiGet();
-  startPolling();
-}
-init();
-</script>
+        // 名單
+        const list = document.createElement("div");
+        group.names.forEach((item) => {
+          const tag = document.createElement("div");
+          tag.className = "name-tag";
+          tag.innerHTML = `${item.name}
+            <span class="delete-btn" onclick="deleteRecord('${item.id}')">
+              刪除
+            </span>`;
+          list.appendChild(tag);
+        });
+
+        card.appendChild(list);
+        container.appendChild(card);
+      });
+    }
+  </script>
 </body>
 </html>
